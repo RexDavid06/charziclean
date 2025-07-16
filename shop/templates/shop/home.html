@@ -1,0 +1,237 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title%} CharziClean {% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+     <link rel="stylesheet" href="{% static 'css/authsys/auth.css' %}">
+
+    <script
+      src="https://kit.fontawesome.com/0e53af926d.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <!--header section-->
+
+    <header>
+      <div id="header">
+        <div class="header-logo">
+          <a href="{% url 'shop:home'%}"><img src="" alt="charziclean" /></a>
+        </div>
+        <div class="header-list">
+          <nav class="header-list-nav">
+            <ul>
+              <li><a class="" href="{% url 'shop:home' %}">Home</a></li>
+              <li><a href="{% url 'shop:shop'%}">Shop</a></li>
+              <li><a href="{% url 'shop:aboutUs'%}">About</a></li>
+              {% if user.is_authenticated %}
+               <li><a href="">{{user.username}}</a></li>
+              <form action="{% url 'authsys:signout'%}" method="post">
+                {% csrf_token %}
+                <button>Logout</button>
+              </form>
+              {% else %}
+              <li><a href="{% url 'authsys:signin'%}">Login</a></li>
+              {% endif %}
+              
+            </ul>
+          </nav>
+          <div class="header-list-icon">
+            <a href=""><i class="fa fa-bag-shopping"></i></a>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!--main section-->
+    {% block content %}
+    <main>
+      <section id="hero">
+        <h4>Trade-in-offer</h4>
+        <h2>Super value deals</h2>
+        <h1>On all products</h1>
+        <p>save more coupons & up to 70% off!</p>
+        <button>Shop now</button>
+      </section>
+
+      <section id="features" class="section-p1">
+        <div class="f-box">
+          <img src="{% static 'images/features/f1.png' %}" alt="free shipping" />
+          <h6>Free shipping</h6>
+        </div>
+        <div class="f-box">
+          <img src="{% static 'images/features/f2.png' %}" alt="online order" />
+          <h6>online order</h6>
+        </div>
+        <div class="f-box">
+          <img src="{% static 'images/features/f3.png' %}" alt="save money" />
+          <h6>save money</h6>
+        </div>
+        <div class="f-box">
+          <img src="{% static 'images/features/f4.png' %}" alt="promotions" />
+          <h6>promotions</h6>
+        </div>
+        <div class="f-box">
+          <img src="{% static 'images/features/f5.png' %}" alt="happy sell" />
+          <h6>happy sell</h6>
+        </div>
+        <div class="f-box">
+          <img src="{% static 'images/features/f6.png' %}" alt="24/7 support" />
+          <h6>24/7 support</h6>
+        </div>
+      </section>
+
+      <section class="product-section" class="section-p1">
+        <h1>Featured Products</h1>
+        <p>Some of our popular products</p>
+        <div class="pro-collection">
+          {% for product in featured_products %}
+          
+              <div class="product-cart">
+                <a href="{% url 'shop:product_detail' product.id%}" style="text-decoration: None;">
+            <img src="{% static 'images/products/f1.jpg' %}" alt="product image" />
+            <span>{{product.category}}</span>
+            <h4>{{product.name}}</h4>
+            <div class="stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+            <h4 class="price">${{product.price}}</h4>
+               </a>
+            <a href="#"><i class="fa-solid fa-cart-shopping buy-icon"></i></a>
+            
+          </div>
+       
+          {% endfor %}
+         
+
+        </div>
+      </section>
+
+      <section class="product-section" class="section-p1">
+        <h1>Categories</h1>
+        <p>Summer Collection New Morden Design</p>
+        <div class="pro-collection">
+          {% for category in categories%}
+          <div class="product-cart">
+            <img src="{% static 'images/products/n8.jpg' %}" alt="product image" />
+          
+            <h4>{{category.name}}</h4>
+            <div class="stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+           {% endfor %}
+        </div>
+      </section>
+
+      <section id="banners" class="section-p1">
+        <div class="big-banners">
+          <div class="big-banners-1">
+            <h4>crazy deals</h4>
+            <h2>buy 1 get 1 free</h2>
+            <span>The best classic dress is on sale at coro</span>
+            <button class="banner-btn">Learn More</button>
+          </div>
+          <div class="big-banners-2">
+            <h4>spring/summer</h4>
+            <h2>upcomming season</h2>
+            <span>The best classic dress is on sale at cara</span>
+            <button class="banner-btn">Collection</button>
+          </div>
+        </div>
+        <div class="small-banners">
+          <div class="small-banners-1">
+            <h2>SEASONAL SALE</h2>
+            <h5>Winter Collection 50% Off</h5>
+          </div>
+          <div class="small-banners-2">
+            <h2>NEW FOOTWEAR COLLECTION</h2>
+            <h5>Spring/Summer 2022</h5>
+          </div>
+          <div class="small-banners-3">
+            <h2>T-SHIRTS</h2>
+            <h5>New Trendy Prints</h4>
+          </div>
+        </div>
+      </section>
+
+      <section id="newsletter">
+        <div class="newsletter-text">
+          <h3>Sign Up For Newsletters</h3>
+          <h5>get e-mail updates about out latest shop and <span>special offers</span></h5>
+        </div>
+        <div class="form">
+          <input type="email" placeholder="Your email address" id="email-address-input">
+          <button>Sign Up</button>
+        </div>
+      </section>
+
+    </main>
+    {% endblock %}
+
+    <!--footer section-->
+
+    <footer>
+      <div id="footer">
+        <div class="contact">
+          <a href="indext.html"><img src="" alt="charziclean" /></a>
+          <br> <br>
+          <br> 
+          <h3>Follow Us</h3>
+          <br> 
+          <div class="socials">
+            <a href="#"><i class="fa-brands fa-facebook-square"></i></a>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+            <a href="#"><i class="fa-brands fa-telegram"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          </div>
+        </div>
+        <div class="about">
+          <h3>About</h3>
+          <br> 
+          <a href="{% url 'shop:aboutUs'%}">About Us</a>
+          <a href="#">Delivery Information</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms & Conditions</a>
+
+        </div>
+        <div class="myaccount ">
+          <h3>My account</h3>
+          <br> 
+          <a href="#">Sign In</a>
+          <a href="">View Cart</a>
+          <a href="#">My Wishlist</a>
+          <a href="#">Track My Order</a>
+          <a href="#">Help</a>
+        </div>
+        <div class="install">
+          <h3>Install App</h3>
+          <br> 
+          <p>From App Store or Google Play</p>
+          <div class="download">
+            <a href="#"><img src="{% static 'images/pay/app.jpg' %}" alt=""></a>
+            <a href="#"><img src="{% static 'images/pay/play.jpg' %}" alt=""></a>
+          </div>
+          <p>Secured Payment Gateways</p>
+          <img src="{% static 'images/pay/pay.png' %}" alt="">
+        </div>
+        
+      </div>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+  </body>
+</html>

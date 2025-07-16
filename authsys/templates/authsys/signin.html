@@ -1,0 +1,13 @@
+{% extends 'shop/home.html' %}
+
+{% block title %} Sign In {% endblock %}
+{% block content %}
+<div class="auth-container">
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign In</button>
+  </form>
+  <p>Don't have an account? <a href="{% url 'authsys:register' %}">Register</a></p>
+</div>
+{% endblock %}

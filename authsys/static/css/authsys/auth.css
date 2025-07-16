@@ -1,0 +1,56 @@
+/* static/css/auth.css */
+
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fdfdfd;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.auth-container form {
+    display: flex;
+    flex-direction: column;
+}
+
+.auth-container form p {
+    margin-bottom: 15px;
+}
+
+.auth-container input[type="text"],
+.auth-container input[type="password"],
+.auth-container input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    font-size: 14px;
+}
+
+.auth-container button {
+    padding: 10px;
+    background-color: royalblue;
+    color: white;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.auth-container button:hover {
+    background-color: #003d99;
+}
+
+.auth-container a {
+    display: inline-block;
+    margin-top: 15px;
+    color: royalblue;
+    text-decoration: none;
+}
+
+.auth-container a:hover {
+    text-decoration: underline;
+}

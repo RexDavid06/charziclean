@@ -1,0 +1,35 @@
+{% extends 'shop/home.html' %}
+
+{% block title %}{{product.name}}{% endblock %}
+
+{% block content %}
+<div id="containerProduct">
+  <div id="containerD">
+    <div id="imageSection">
+      <img id="imgDetails" src="https://image-link.jpg" alt="Main Product Image" />
+    </div>
+
+    <div id="productDetails">
+      <h1>{{product.name}}</h1>
+      <h4>{{product.category}}</h4>
+
+      <div id="details">
+        <h3>#{{product.price}}</h3>
+        <h3>Description</h3>
+        <p>{{product.description}}.</p>
+      </div>
+
+      <div id="productPreview">
+        <h3>Product Preview</h3>
+        <img class="previewImg" src="https://image1.jpg" alt="Preview 1" />
+        <img class="previewImg" src="https://image2.jpg" alt="Preview 2" />
+      </div>
+
+      <div id="button">
+        <button>Add to Cart</button>
+        <a href="{% url 'shop:shop'%}">Back to shop</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
