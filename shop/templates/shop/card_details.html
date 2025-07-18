@@ -1,0 +1,22 @@
+{% extends 'shop/home.html' %}
+{% block title%}
+Card Details
+{% endblock %}
+{% block content %}
+<h2>Your Cart</h2>
+
+{% if cart.items.all %}
+    <ul>
+        {% for item in cart.items.all %}
+            <li>
+                {{ item.product.name }} - ₦{{ item.product.price }} x {{ item.quantity }}
+                = ₦{{ item.total_price }}
+                <a href="{% url 'cart:remove_from_cart' item.id %}">Remove</a>
+            </li>
+        {% endfor %}
+    </ul>
+    <p><strong>Total:</strong> ₦{{ cart.total_price }}</p>
+{% else %}
+    <p>Your cart is empty.</p>
+{% endif %}
+{% endblock %}

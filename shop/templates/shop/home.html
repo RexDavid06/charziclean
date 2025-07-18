@@ -42,9 +42,15 @@
               
             </ul>
           </nav>
-          <div class="header-list-icon">
-            <a href=""><i class="fa fa-bag-shopping"></i></a>
-          </div>
+        <div class="header-list-icon">
+  <a href="{% url 'shop:cart_detail' %}">
+    <i class="fa fa-bag-shopping"></i>
+    {% if cart_item_count > 0 %}
+      <span class="cart-count">{{ cart_item_count }}</span>
+    {% endif %}
+  </a>
+</div>
+
         </div>
       </div>
     </header>
