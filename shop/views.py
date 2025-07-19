@@ -5,6 +5,7 @@ from django.views.generic.list import ListView
 from shop.models import Product, Category, CartItem
 from django.views.generic.detail import DetailView
 from .utils import get_or_create_cart
+from .aliexpress_api import fetch_aliexpress_products
 
 # Create your views here.
 class HomeView(ListView):
@@ -16,22 +17,28 @@ class HomeView(ListView):
         context =  super().get_context_data(**kwargs)
         context['featured_products'] = Product.objects.all()[:8]
         return context
-
-class ProductListView(ListView):
-    model = Product
+    
+class ProductListView(TemplateView):
     template_name = 'shop/shop.html'
-    context_object_name = 'products'
-
-    def get_queryset(self):
-        category_id = self.request.GET.get('category')
-        if category_id:
-            return Product.objects.filter(category_id=category_id)
-        return Product.objects.all()
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+
+        # Fetch AliExpress products
+        aliexpress_products = fetch_aliexpress_products(query="cleaning products")
+        
+        # Format for template
+        formatted = []
+        for item in aliexpress_products:
+            formatted.append({
+                'title': item.get('title', 'No name'),
+                'brand': 'AliExpress',
+                'price': item.get('price', '$0'),
+                'image_url': item.get('image_url'),
+                'product_url': item.get('product_url'),
+            })
+
+        context['products'] = formatted
         return context
 
 
@@ -64,3 +71,12 @@ class CartDetailView(View):
     def get(self, request):
         cart = get_or_create_cart(request)
         return render(request, 'cart/cart_detail.html', {'cart': cart})
+
+
+class AliExpressCleaningProductsView(View):
+    template_name = 'shop/aliexpress_cleaning_products.html'
+
+    def get(self, request, *args, **kwargs):
+        products = fetch_aliexpress_products(query='cleaning products')
+        print(products)  
+        return render(request, self.template_name, {"poducts": products})

@@ -21,26 +21,27 @@ Shop
     <section class="product-section" class="section-p1">
       <h2 style="font-size: 32px; margin-bottom: 20px; color: #222;">Our Products</h2>
       <div class="pro-collection">
-        {% for product in products %}
-        <div class="product-cart">
-            <a href="{% url 'shop:product_detail' product.id%}" style="text-decoration: None; color: black">
-                    <img src="{{ product.image_url }}" alt="{{ product.name }}" />
-                    <span>{{ product.brand }}</span>
-                    <h4>{{ product.name }}</h4>
-                    <div class="stars">
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                        <i class="fa-solid fa-star"></i>
-                    </div>
-                    <h4 class="price">${{ product.price }}</h4>
-            </a>
-          <a href="#"><i class="fa-solid fa-cart-shopping buy-icon"></i></a>
-        </div>
-        {% empty %}
-        <p>No products available.</p>
-        {% endfor %}
+       {% for product in products %}
+      <div class="product-cart">
+        <a href="{{ product.product_url }}" style="text-decoration: none; color: black;" target="_blank">
+          <img src="{{ product.image_url }}" alt="{{ product.title }}" />
+          <span>{{ product.brand|default:"AliExpress" }}</span>
+          <h4>{{ product.title }}</h4>
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <h4 class="price">{{ product.price }}</h4>
+        </a>
+        <a href="#"><i class="fa-solid fa-cart-shopping buy-icon"></i></a>
+          </div>
+    {% empty %}
+    <p>No products available.</p>
+    {% endfor %}
+
       </div>
     </section>
   </div>
