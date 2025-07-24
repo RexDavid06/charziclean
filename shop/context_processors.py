@@ -1,4 +1,4 @@
-from .utils import get_or_create_cart
+from shop.utils import get_or_create_cart
 
 def cart_item_count(request):
     cart = get_or_create_cart(request)

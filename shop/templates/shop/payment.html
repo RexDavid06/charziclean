@@ -1,0 +1,40 @@
+{% extends 'shop/home.html' %}
+{% block title %}Checkout - Payment{% endblock %}
+
+{% block content %}
+<div class="checkout-container">
+  <!-- Payment Form -->
+  <div class="payment-section">
+    <h2>Complete Your Payment</h2>
+    <p><strong>Order ID:</strong> {{ order_id }}</p>
+    <p>Select a payment method below to complete your order.</p>
+
+    <!-- Placeholder for actual payment gateway -->
+    <div style="margin-top: 20px;">
+      <p class="placeholder-text">(Payment gateway integration e.g. Paystack, Flutterwave, etc. goes here.)</p>
+    </div>
+
+    <button class="checkout-btn">Pay Now</button>
+    <a href="{% url 'shop:home' %}" class="back-home">← Back to Shopping</a>
+  </div>
+
+  <!-- Order Summary -->
+ <div class="payment-summary">
+  <h3>Order Summary</h3>
+  {% for item in cart_items %}
+  <div class="order-item">
+    <span>{{ item.product.name }}</span>
+    <span>{{ item.product.price }} × {{ item.quantity }}</span>
+  </div>
+  {% endfor %}
+  
+  <hr style="margin-top: 20px;">
+  <div class="order-item">
+    <strong>Total</strong>
+    <strong>€{{ cart_total }}</strong>
+  </div>
+</div>
+</div>
+
+
+{% endblock %}

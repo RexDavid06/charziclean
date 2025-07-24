@@ -1,45 +1,38 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from django.views.generic import TemplateView
-from django.views.generic.list import ListView
+from django.views.generic import TemplateView, ListView, DetailView
 from shop.models import Product, Category, CartItem
-from django.views.generic.detail import DetailView
 from .utils import get_or_create_cart
-from .aliexpress_api import fetch_aliexpress_products
+from django.contrib import messages
 
-# Create your views here.
+
+
 class HomeView(ListView):
     queryset = Category.objects.all()
     template_name = 'shop/home.html'
     context_object_name = 'categories'
     
     def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context['featured_products'] = Product.objects.all()[:8]
         return context
-    
-class ProductListView(TemplateView):
+
+
+class ProductListView(ListView):
+    queryset = Product.objects.all()
     template_name = 'shop/shop.html'
+    context_object_name = 'products'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        # Fetch AliExpress products
-        aliexpress_products = fetch_aliexpress_products(query="cleaning products")
-        
-        # Format for template
-        formatted = []
-        for item in aliexpress_products:
-            formatted.append({
-                'title': item.get('title', 'No name'),
-                'brand': 'AliExpress',
-                'price': item.get('price', '$0'),
-                'image_url': item.get('image_url'),
-                'product_url': item.get('product_url'),
-            })
-
-        context['products'] = formatted
+        context["categories"] = Category.objects.all()
         return context
+
+    def get_queryset(self):
+        category_id = self.request.GET.get("category")
+        if category_id:
+            return Product.objects.filter(category_id=category_id)
+        return Product.objects.all()
 
 
 class ProductDetailView(DetailView):
@@ -60,23 +53,71 @@ class AddToCartView(View):
         if not created:
             item.quantity += 1
             item.save()
-        return redirect('cart_detail')
+        return redirect('shop:cart_detail')
+
 
 class RemoveFromCartView(View):
     def get(self, request, item_id):
         CartItem.objects.filter(id=item_id).delete()
-        return redirect('cart_detail')
+        return redirect('shop:cart_detail')
+
 
 class CartDetailView(View):
     def get(self, request):
         cart = get_or_create_cart(request)
-        return render(request, 'cart/cart_detail.html', {'cart': cart})
+        return render(request, 'shop/cart_detail.html', {'cart': cart})
+    
 
-
-class AliExpressCleaningProductsView(View):
-    template_name = 'shop/aliexpress_cleaning_products.html'
+class CheckoutView(TemplateView):
+    template_name = 'shop/checkout.html'
 
     def get(self, request, *args, **kwargs):
-        products = fetch_aliexpress_products(query='cleaning products')
-        print(products)  
-        return render(request, self.template_name, {"poducts": products})
+        cart = get_or_create_cart(request)
+        if not cart.items.exists():
+            messages.warning(request, "Your cart is empty!")
+            return redirect('shop:cart_detail')
+        return self.render_to_response({'cart': cart})
+
+    def post(self, request, *args, **kwargs):
+        cart = get_or_create_cart(request)
+        if not cart.items.exists():
+            messages.warning(request, "Your cart is empty!")
+            return redirect('shop:cart_detail')
+
+        address = request.POST.get('address', '').strip()
+        if not request.user.is_authenticated:
+            name = request.POST.get('name', '').strip()
+            email = request.POST.get('email', '').strip()
+        else:
+            name = request.user.get_full_name() or request.user.username
+            email = request.user.email
+
+        # --- Save order to DB here and get order_id ---
+        # Example:
+        # order = Order.objects.create(
+        #     user=request.user if request.user.is_authenticated else None,
+        #     name=name, email=email, address=address,
+        #     total=cart.total_price()
+        # )
+        # for item in cart.items.all():
+        #     OrderItem.objects.create(order=order, product=item.product, quantity=item.quantity, price=item.product.price)
+        # cart.items.all().delete()
+        # --- End Example ---
+
+        # For now, let's use a placeholder order_id
+        order_id = 1  # Replace with order.id after you implement Order model
+
+        return redirect('shop:payment', order_id=order_id)
+
+
+class PaymentView(TemplateView):
+    template_name = 'shop/payment.html'
+
+    def get(self, request, *args, **kwargs):
+        cart = get_or_create_cart(request)
+        cart_items = cart.items.all()
+        cart_total = cart.total_price()
+        return self.render_to_response({
+            'cart_items': cart_items,
+            'cart_total': cart_total,
+        })

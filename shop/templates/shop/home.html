@@ -32,6 +32,7 @@
               <li><a href="{% url 'shop:aboutUs'%}">About</a></li>
               {% if user.is_authenticated %}
                <li><a href="">{{user.username}}</a></li>
+              
               <form action="{% url 'authsys:signout'%}" method="post">
                 {% csrf_token %}
                 <button>Logout</button>
@@ -43,13 +44,11 @@
             </ul>
           </nav>
         <div class="header-list-icon">
-  <a href="{% url 'shop:cart_detail' %}">
-    <i class="fa fa-bag-shopping"></i>
-    {% if cart_item_count > 0 %}
-      <span class="cart-count">{{ cart_item_count }}</span>
-    {% endif %}
-  </a>
-</div>
+          <a href="{% url 'shop:cart_detail' %}">
+            <i class="fa fa-bag-shopping"></i>
+            <span id="cart-count">{{ cart_item_count }}</span>
+          </a>
+        </div>
 
         </div>
       </div>
@@ -59,11 +58,7 @@
     {% block content %}
     <main>
       <section id="hero">
-        <h4>Trade-in-offer</h4>
-        <h2>Super value deals</h2>
-        <h1>On all products</h1>
-        <p>save more coupons & up to 70% off!</p>
-        <button>Shop now</button>
+  
       </section>
 
       <section id="features" class="section-p1">
@@ -93,39 +88,42 @@
         </div>
       </section>
 
-      <section class="product-section" class="section-p1">
-        <h1>Featured Products</h1>
-        <p>Some of our popular products</p>
-        <div class="pro-collection">
-          {% for product in featured_products %}
-          
-              <div class="product-cart">
-                <a href="{% url 'shop:product_detail' product.id%}" style="text-decoration: None;">
-            <img src="{% static 'images/products/f1.jpg' %}" alt="product image" />
-            <span>{{product.category}}</span>
-            <h4>{{product.name}}</h4>
-            <div class="stars">
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-            </div>
-            <h4 class="price">${{product.price}}</h4>
-               </a>
-            <a href="#"><i class="fa-solid fa-cart-shopping buy-icon"></i></a>
-            
-          </div>
-       
-          {% endfor %}
-         
+<section class="product-section section-p1">
+  <h1>Featured Products</h1>
+  <p>Some of our popular products</p>
 
-        </div>
-      </section>
+  <div class="pro-collection">
+    {% for product in featured_products %}
+      <div class="product-cart">
+
+        <!-- Link wraps only product info, not the entire card -->
+        <a href="{% url 'shop:product_detail' product.id %}" style="text-decoration: none;">
+          <img src="{{ product.image }}" alt="product image" />
+          <span>{{ product.category }}</span>
+          <h4>{{ product.name }}</h4>
+          <div class="stars">
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+            <i class="fa-solid fa-star"></i>
+          </div>
+          <h4 class="price">€{{ product.price }}</h4>
+        </a>
+
+       <a href="{% url 'shop:add_to_cart' product.id %}">
+            <i class="fa-solid fa-cart-shopping buy-icon"></i>
+          </a>
+
+      </div>
+    {% endfor %}
+  </div>
+</section>
+
 
       <section class="product-section" class="section-p1">
         <h1>Categories</h1>
-        <p>Summer Collection New Morden Design</p>
+        <p>Major Categories</p>
         <div class="pro-collection">
           {% for category in categories%}
           <div class="product-cart">
@@ -144,36 +142,37 @@
         </div>
       </section>
 
-      <section id="banners" class="section-p1">
-        <div class="big-banners">
-          <div class="big-banners-1">
-            <h4>crazy deals</h4>
-            <h2>buy 1 get 1 free</h2>
-            <span>The best classic dress is on sale at coro</span>
-            <button class="banner-btn">Learn More</button>
-          </div>
-          <div class="big-banners-2">
-            <h4>spring/summer</h4>
-            <h2>upcomming season</h2>
-            <span>The best classic dress is on sale at cara</span>
-            <button class="banner-btn">Collection</button>
-          </div>
-        </div>
-        <div class="small-banners">
-          <div class="small-banners-1">
-            <h2>SEASONAL SALE</h2>
-            <h5>Winter Collection 50% Off</h5>
-          </div>
-          <div class="small-banners-2">
-            <h2>NEW FOOTWEAR COLLECTION</h2>
-            <h5>Spring/Summer 2022</h5>
-          </div>
-          <div class="small-banners-3">
-            <h2>T-SHIRTS</h2>
-            <h5>New Trendy Prints</h4>
-          </div>
-        </div>
-      </section>
+     <section id="banners" class="section-p1">
+  <div class="big-banners">
+    <div class="big-banners-1">
+      <h4>exclusive offers</h4>
+      <h2>buy 1 get 1 free</h2>
+      <span>Top-quality cleaning tools now available at unbeatable prices</span>
+      <button class="banner-btn">Shop Now</button>
+    </div>
+    <div class="big-banners-2">
+      <h4>home & office</h4>
+      <h2>cleaning made easy</h2>
+      <span>Upgrade your cleaning routine with trusted equipment</span>
+      <button class="banner-btn">Explore Tools</button>
+    </div>
+  </div>
+  <div class="small-banners">
+    <div class="small-banners-1">
+      <h2>CLEARANCE SALE</h2>
+      <h5>Up to 50% off on vacuums & detergents</h5>
+    </div>
+    <div class="small-banners-2">
+      <h2>NEW ARRIVALS</h2>
+      <h5>Eco-friendly Surface Cleaners & Sprays</h5>
+    </div>
+    <div class="small-banners-3">
+      <h2>CLEANING KITS</h2>
+      <h5>All-in-one packages for home & office</h5>
+    </div>
+  </div>
+</section>
+
 
       <section id="newsletter">
         <div class="newsletter-text">
@@ -219,7 +218,7 @@
         <div class="myaccount ">
           <h3>My account</h3>
           <br> 
-          <a href="#">Sign In</a>
+          <a href="{% url 'authsys:signin'%}">Sign In</a>
           <a href="">View Cart</a>
           <a href="#">My Wishlist</a>
           <a href="#">Track My Order</a>
@@ -240,6 +239,7 @@
       </div>
     </footer>
 
-    <script src="{% static 'js/script.js' %}"></script>
+    <div class="copyright">
+      <p>© 2023 CharziClean. All rights reserved.</p>
   </body>
 </html>

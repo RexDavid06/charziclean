@@ -475,4 +475,132 @@ span {
   right: -5px;
 }
 
+/* Cart Page Styles */
+.cart-container {
+  max-width: 600px;
+  margin: 40px auto 60px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+  padding: 32px 24px;
+}
+
+.cart-container h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 24px;
+  letter-spacing: 0.5px;
+  color: #088178;
+}
+
+.cart-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px 0;
+}
+
+.cart-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 14px 0;
+  border-bottom: 1px solid #e6e6e6;
+  font-size: 1.07rem;
+}
+
+.cart-list li:last-child {
+  border-bottom: none;
+}
+
+.cart-list a {
+  color: #e74c3c;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 4px 10px;
+  border-radius: 5px;
+  transition: background 0.2s;
+  font-size: 0.97rem;
+}
+
+.cart-list a:hover {
+  background: #fbeee0;
+}
+
+.cart-total {
+  text-align: right;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #222;
+}
+
+.empty-cart-message {
+  background: #f9f9f9;
+  border: 1px dashed #ccc;
+  padding: 32px 0;
+  border-radius: 8px;
+  font-size: 1.12rem;
+  text-align: center;
+  color: #888;
+}
+
+.checkout-container {
+  max-width: 900px;
+  margin: 50px auto;
+  display: flex;
+  gap: 30px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.payment-summary,
+.payment-section {
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  padding: 25px;
+  border: 1px solid #eee;
+}
+
+.payment-section h2,
+.payment-summary h3 {
+  font-size: 20px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.order-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  border-bottom: 1px dashed #ccc;
+  padding-bottom: 8px;
+}
+
+.checkout-btn {
+  margin-top: 25px;
+  background-color: #f68b1e;
+  border: none;
+  color: white;
+  padding: 12px 20px;
+  font-weight: bold;
+  font-size: 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.checkout-btn:hover {
+  background-color: #e67b00;
+}
+
+.back-home {
+  display: inline-block;
+  margin-top: 20px;
+  color: #088178;
+  text-decoration: none;
+}
+
+.placeholder-text {
+  color: #888;
+}
 

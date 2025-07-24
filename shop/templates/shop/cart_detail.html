@@ -1,0 +1,36 @@
+{% extends 'shop/home.html' %}
+
+{% block title %} Your CART{% endblock %}
+{% block content %}
+<div class="cart-container">
+  <h2>Your Cart</h2>
+  {% if cart.items.all %}
+    <ul class="cart-list">
+      {% for item in cart.items.all %}
+        <li>
+          {{ item.product.name }} - €{{ item.product.price }} x {{ item.quantity }} = €{{ item.total_price }}
+          <a href="{% url 'shop:remove_from_cart' item.id %}">Remove</a>
+        </li>
+      {% endfor %}
+    </ul>
+    <p class="cart-total"><strong>Total:</strong> €{{ cart.total_price }}</p>
+    <div style="text-align: right; margin-top: 16px;">
+      <a href="{% url 'shop:checkout' %}" class="btn btn-primary" style="
+        display: inline-block;
+        padding: 10px 28px;
+        background: #088178;
+        color: #fff;
+        border-radius: 6px;
+        font-size: 1rem;
+        text-decoration: none;
+        font-weight: 500;
+        transition: background 0.15s;
+      " onmouseover="this.style.background='#066c63'" onmouseout="this.style.background='#088178'">
+        Proceed to Checkout
+      </a>
+    </div>
+  {% else %}
+    <div class="empty-cart-message">Your cart is empty.</div>
+  {% endif %}
+</div>
+{% endblock %}
